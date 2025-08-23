@@ -185,14 +185,14 @@ create policy comments_members_all on public.comments for all using (
         select 1 from public.tasks t
         join public.projects p on p.id = t.project_id
         join public.memberships m on m.workspace_id = p.workspace_id
-        where t.id = comments.tasks_id and m.user_id = auth.uid()
+        where t.id = comments.task_id and m.user_id = auth.uid()
     )
 ) with check (
     exists (
         select 1 from public.tasks t
         join public.projects p on p.id = t.project_id
         join public.memberships m on m.workspace_id = p.workspace_id
-        where t.id = comments.tasks_id and m.user_id = auth.uid()
+        where t.id = comments.task_id and m.user_id = auth.uid()
     )
 );
 
@@ -229,7 +229,7 @@ set search_path = public
 as $$
 begin
     insert into public.profiles (id, email)
-    values (new.id, new.email);
+    values (new.id, new.email)
     on conflict (id) do nothing;
     return new;
 end;
@@ -261,7 +261,6 @@ drop trigger if exists trg_tasks_updated_at on public.tasks;
 create trigger trg_tasks_updated_at before update on public.tasks for each row execute function public.tg_set_updated_at();
 
 -- Comments: bump updated_at on any update
--- !Ask GPT 5 about comments updated_at and attachments updated_at triggers
 drop trigger if exists trg_comments_updated_at on public.comments;
 create trigger trg_comments_updated_at before update on public.comments for each row execute function public.tg_set_updated_at();
 
