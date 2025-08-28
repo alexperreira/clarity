@@ -51,7 +51,7 @@ export default async function DashboardPage() {
 					href='/projects/new'
 					className='inline-flex items-center gap-2 rounded-xl bg-white/10 px-4 py-2 text-sm hover:bg-white/15'
 				>
-					Open AI Planner -
+					Open AI Planner →
 				</Link>
 			</section>
 		</main>
